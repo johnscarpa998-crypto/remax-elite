@@ -1,0 +1,248 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#063b82">
+<title>RE/MAX ELITE | Solicitud de visitas</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f3f6fb;color:#263448}
+header{background:white;padding:17px 20px;display:flex;justify-content:space-between;align-items:center;box-shadow:0 2px 12px #0001}
+.logo{font-size:25px;font-weight:900;color:#06428c}
+.logo span{color:#d71920}
+.logo small{display:block;font-size:10px;letter-spacing:3px;color:#555}
+nav a{color:#164477;text-decoration:none;margin-left:14px;font-size:12px;font-weight:bold}
+.hero{background:linear-gradient(120deg,#062e68,#0754a7);color:white;text-align:center;padding:65px 20px}
+.hero h1{font-size:36px;margin:0 0 15px}
+.hero p{max-width:650px;margin:auto;line-height:1.7;color:#e5efff}
+.btn{display:inline-block;background:#d71920;color:white;padding:15px 25px;border-radius:7px;text-decoration:none;font-weight:bold;margin-top:20px}
+.container{max-width:950px;margin:auto;padding:35px 17px}
+.heading{text-align:center;margin-bottom:25px}
+.heading h2{color:#073d80;font-size:27px}
+.heading p{color:#66758a;line-height:1.6}
+.fee{background:white;border:1px solid #dce5f1;border-radius:15px;padding:25px;text-align:center;box-shadow:0 5px 20px #0b347010}
+.fee-label{font-size:12px;letter-spacing:1.5px;color:#64748b}
+.amount{font-size:43px;color:#06428c;font-weight:900;margin:12px}
+.fee h3{color:#173b69}
+.notice{background:#edf4ff;padding:15px;border-radius:9px;font-size:13px;line-height:1.7;color:#294766;text-align:left}
+.form-card{background:white;border-radius:15px;padding:25px;box-shadow:0 5px 25px #0000000c}
+label{display:block;font-weight:bold;font-size:13px;margin:15px 0 7px}
+input,select,textarea{width:100%;padding:14px;border:1px solid #d3dce8;border-radius:7px;font-size:16px;background:white}
+input:focus,select:focus,textarea:focus{outline:2px solid #8db9ef;border-color:#0754a7}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+.submit{width:100%;background:#06428c;color:white;border:0;padding:16px;border-radius:8px;font-size:16px;font-weight:bold;margin-top:22px;cursor:pointer}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}
+.step{background:white;padding:20px;border-radius:12px;text-align:center;box-shadow:0 3px 15px #00000008}
+.step b{color:#06428c;font-size:22px}
+.step p{font-size:13px;line-height:1.6;color:#66758a}
+#result{display:none;background:#eaf7ef;color:#175b34;border:1px solid #b7e3c5;padding:18px;border-radius:10px;margin-top:20px;line-height:1.6}
+footer{background:#082d5e;color:white;text-align:center;padding:30px 15px;font-size:13px;line-height:1.8}
+footer strong{font-size:21px}
+@media(max-width:650px){nav{display:none}.hero{padding:55px 17px}.hero h1{font-size:30px}.grid,.steps{grid-template-columns:1fr}.form-card{padding:18px}.amount{font-size:38px}}
+</style>
+</head>
+<body>
+
+<header>
+ <div class="logo">RE/MAX <span>ELITE</span><small>REAL ESTATE SERVICES</small></div>
+ <nav>
+  <a href="#inicio">INICIO</a>
+  <a href="#servicio">SERVICIO</a>
+  <a href="#cita">AGENDAR CITA</a>
+ </nav>
+</header>
+
+<section class="hero" id="inicio">
+ <h1>Encuentra el hogar que buscas</h1>
+ <p>Te acompañamos en la búsqueda de casas y apartamentos en diferentes ciudades de Estados Unidos. Solicita una visita y conoce las opciones disponibles.</p>
+ <a class="btn" href="#cita">SOLICITAR UNA CITA</a>
+</section>
+
+<section class="container" id="servicio">
+ <div class="heading">
+  <h2>Servicio de demostración de vivienda</h2>
+  <p>Conoce los detalles del servicio antes de solicitar tu visita.</p>
+ </div>
+ <div class="fee">
+  <div class="fee-label">MONTO INDICADO DEL SERVICIO</div>
+  <div class="amount">$150.00 USD</div>
+  <h3>Demostración de vivienda</h3>
+  <p>Servicio relacionado con la coordinación y demostración de una propiedad seleccionada.</p>
+  <div class="notice">
+   El monto indicado no constituye por sí solo una orden de pago ni una confirmación de reservación. Antes de aceptar cualquier cargo se proporcionarán por escrito el concepto del servicio, la identidad del beneficiario, las condiciones de reembolso y el momento en que corresponda realizar el pago. No envíes dinero ni compartas datos bancarios para solicitar información o consultar una propiedad.
+  </div>
+ </div>
+</section>
+
+<section class="container">
+ <div class="heading">
+  <h2>¿Cómo funciona?</h2>
+  <p>Un proceso sencillo para solicitar una visita.</p>
+ </div>
+ <div class="steps">
+  <div class="step"><b>01</b><h3>Completa tus datos</h3><p>Indica tu información y la ubicación de interés.</p></div>
+  <div class="step"><b>02</b><h3>Selecciona horario</h3><p>Elige la fecha y hora que prefieres solicitar.</p></div>
+  <div class="step"><b>03</b><h3>Confirmación</h3><p>La solicitud deberá ser revisada y confirmada por el equipo.</p></div>
+ </div>
+</section>
+
+<section class="container" id="cita">
+ <div class="heading">
+  <h2>Solicita tu visita</h2>
+  <p>Completa el formulario para enviar tu solicitud de cita.</p>
+ </div>
+ <div class="form-card">
+  <form id="appointmentForm">
+   <div class="grid">
+    <div>
+     <label for="name">Nombre completo *</label>
+     <input id="name" name="name" required placeholder="Tu nombre completo">
+    </div>
+    <div>
+     <label for="email">Correo electrónico *</label>
+     <input id="email" name="email" type="email" required placeholder="correo@ejemplo.com">
+    </div>
+   </div>
+   <div class="grid">
+    <div>
+     <label for="phone">Teléfono *</label>
+     <input id="phone" name="phone" type="tel" required placeholder="+1">
+    </div>
+    <div>
+     <label for="state">Estado de interés *</label>
+     <select id="state" name="state" required>
+      <option value="">Seleccionar estado</option>
+      <option>California</option><option>Illinois</option>
+      <option>Maryland</option><option>Missouri</option>
+      <option>New Jersey</option><option>New York</option>
+      <option>Ohio</option><option>Pennsylvania</option>
+      <option>Texas</option><option>Otro</option>
+     </select>
+    </div>
+   </div>
+   <label for="property">Tipo de vivienda *</label>
+   <select id="property" name="property" required>
+    <option value="">Seleccionar</option>
+    <option>Apartamento</option>
+    <option>Casa</option>
+    <option>Habitación</option>
+    <option>Otro</option>
+   </select>
+   <label for="address">Dirección o propiedad de interés</label>
+   <input id="address" name="address" placeholder="Dirección, ciudad o código postal">
+   <div class="grid">
+    <div>
+     <label for="date">Fecha preferida *</label>
+     <input id="date" name="date" type="date" required>
+    </div>
+    <div>
+     <label for="time">Hora preferida *</label>
+     <select id="time" name="time" required>
+      <option value="">Seleccionar hora</option>
+      <option>9:00 AM</option><option>10:00 AM</option>
+      <option>11:00 AM</option><option>12:00 PM</option>
+      <option>1:00 PM</option><option>2:00 PM</option>
+      <option>3:00 PM</option><option>4:00 PM</option>
+      <option>5:00 PM</option><option>6:00 PM</option>
+      <option>7:00 PM</option><option>8:00 PM</option>
+     </select>
+    </div>
+   </div>
+   <label for="people">Cantidad de personas que asistirán</label>
+   <select id="people" name="people">
+    <option>1 persona</option><option>2 personas</option>
+    <option>3 personas</option><option>4 personas</option>
+    <option>5 o más personas</option>
+   </select>
+   <label for="message">Información adicional</label>
+   <textarea id="message" name="message" rows="4" placeholder="Cuéntanos qué vivienda buscas..."></textarea>
+   <label style="font-weight:normal;line-height:1.6">
+    <input type="checkbox" required style="width:auto">
+    Confirmo que mis datos son correctos y autorizo que me contacten para gestionar esta solicitud.
+   </label>
+   <button class="submit" type="submit">ENVIAR SOLICITUD DE CITA</button>
+  </form>
+  <div id="result">
+   <h3>¡Solicitud preparada!</h3>
+   <p id="confirmation"></p>
+   <button class="submit" id="download" type="button">DESCARGAR COMPROBANTE</button>
+  </div>
+ </div>
+</section>
+
+<section class="container">
+ <div class="fee">
+  <h2>Información importante</h2>
+  <p>La solicitud de visita no garantiza disponibilidad ni confirma una cita. Nuestro equipo deberá verificar la propiedad y comunicarse contigo.</p>
+  <p>Las condiciones de cualquier servicio con costo, incluidos los $150 USD indicados, deberán ser explicadas y aceptadas expresamente antes de realizar un pago.</p>
+  <p>No se solicitan tarjetas de regalo, recargas, MoneyPak ni contraseñas bancarias.</p>
+ </div>
+</section>
+
+</main>
+
+<footer>
+ <strong>RE/MAX ELITE</strong>
+ <p>Tu próximo hogar comienza aquí.</p>
+ <p>Atención mediante solicitud de cita.</p>
+ <p>© 2026 RE/MAX ELITE. Todos los derechos reservados.</p>
+ <p>La utilización de la marca RE/MAX y sus logotipos requiere autorización.</p>
+</footer>
+
+<script>
+const form=document.getElementById("appointmentForm");
+const result=document.getElementById("result");
+let savedData=null;
+
+const dateInput=document.getElementById("date");
+const today=new Date();
+const localDate=new Date(today.getTime()-today.getTimezoneOffset()*60000)
+ .toISOString().split("T")[0];
+dateInput.min=localDate;
+
+form.addEventListener("submit",function(e){
+ e.preventDefault();
+ savedData=Object.fromEntries(new FormData(form).entries());
+ document.getElementById("confirmation").textContent=
+ "Solicitud de "+savedData.name+
+ ". Fecha solicitada: "+savedData.date+
+ " a las "+savedData.time+
+ ". Ubicación: "+savedData.state+
+ ". Esta es una solicitud pendiente de confirmación por el equipo.";
+ result.style.display="block";
+ result.scrollIntoView({behavior:"smooth"});
+});
+
+document.getElementById("download").addEventListener("click",function(){
+ if(!savedData)return;
+ const lines=[
+ "RE/MAX ELITE",
+ "COMPROBANTE DE SOLICITUD - NO ES UNA CITA CONFIRMADA",
+ "--------------------------------",
+ "Nombre: "+savedData.name,
+ "Correo: "+savedData.email,
+ "Teléfono: "+savedData.phone,
+ "Estado: "+savedData.state,
+ "Vivienda: "+savedData.property,
+ "Propiedad: "+(savedData.address||"No indicada"),
+ "Fecha solicitada: "+savedData.date,
+ "Hora solicitada: "+savedData.time,
+ "Personas: "+savedData.people,
+ "Mensaje: "+(savedData.message||"Ninguno"),
+ "--------------------------------",
+ "La solicitud debe ser confirmada por el equipo.",
+ "El monto indicado de $150 USD no es una orden de pago.",
+ "No realices pagos sin recibir condiciones claras por escrito."
+ ];
+ const blob=new Blob([lines.join("\n")],{type:"text/plain;charset=utf-8"});
+ const url=URL.createObjectURL(blob);
+ const a=document.createElement("a");
+ a.href=url;a.download="solicitud-remax-elite.txt";
+ a.click();URL.revokeObjectURL(url);
+});
+</script>
+
+</body>
+</html>
