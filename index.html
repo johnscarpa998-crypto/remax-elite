@@ -55,6 +55,7 @@ input:focus,select:focus,textarea:focus{
  margin-top:22px;
 }
 .btn:hover{background:#0754a7}
+.btn:disabled{opacity:.6;cursor:not-allowed}
 .secondary{background:#e8eef7;color:#164477}
 .secondary:hover{background:#dce7f5}
 .hidden{display:none!important}
@@ -93,11 +94,49 @@ input:focus,select:focus,textarea:focus{
  padding:16px;line-height:1.8;font-size:14px;
 }
 .receipt{
- border:1px dashed #8da8c8;border-radius:12px;
- padding:22px;background:white;margin-top:20px;
+ background:#fff;
+ border:1px solid #dce5f0;
+ border-radius:14px;
+ padding:25px;
+ margin-top:20px;
+ box-shadow:0 4px 18px #0000000a;
 }
 .receipt h3{text-align:center;color:#06428c}
 .receipt p{line-height:1.7;font-size:14px}
+.receipt .ref-code{
+ text-align:center;
+ font-size:22px;
+ font-weight:bold;
+ color:#06428c;
+ padding:15px;
+ background:#f1f6ff;
+ border-radius:9px;
+ margin:15px 0;
+ overflow-wrap:anywhere;
+}
+.receipt .receipt-header{
+ text-align:center;
+ border-bottom:3px solid #d71920;
+ padding-bottom:15px;
+ margin-bottom:18px;
+}
+.receipt .receipt-header strong{
+ display:block;
+ font-size:25px;
+ color:#06428c;
+}
+.receipt .receipt-header span{
+ color:#d71920;
+}
+.receipt .receipt-status{
+ background:#edf5ff;
+ color:#06428c;
+ padding:12px;
+ border-radius:8px;
+ text-align:center;
+ font-weight:bold;
+ margin:18px 0;
+}
 footer{
  background:#082d5e;color:white;text-align:center;
  padding:28px 15px;font-size:13px;line-height:1.8;
@@ -108,6 +147,24 @@ footer strong{font-size:22px}
  .grid,.methods{grid-template-columns:1fr}
  .card{padding:18px}
  .hero h1{font-size:25px}
+ .receipt{padding:16px}
+}
+@page{size:auto;margin:12mm}
+@media print{
+ body *{visibility:hidden!important}
+ #receipt,#receipt *{visibility:visible!important}
+ #receipt{
+  position:absolute;
+  left:0;
+  top:0;
+  width:100%;
+  margin:0;
+  border:0;
+  box-shadow:none;
+  color:#222;
+  background:white;
+ }
+ #downloadBtn,#backBtn,footer{display:none!important}
 }
 </style>
 </head>
@@ -131,8 +188,6 @@ footer strong{font-size:22px}
 </section>
 
 <main class="container">
-
-<!-- PAGINA 1 -->
 
 <section id="page1" class="card">
  <h2>Solicitud de visita</h2>
@@ -236,9 +291,6 @@ footer strong{font-size:22px}
 
  </form>
 </section>
-
-
-<!-- PAGINA 2 -->
 
 <section id="page2" class="card hidden">
 
@@ -361,9 +413,6 @@ footer strong{font-size:22px}
 
 </section>
 
-
-<!-- RESULTADO Y RECIBO -->
-
 <section id="successPage" class="card hidden">
 
  <h2 style="color:#167443">
@@ -376,26 +425,29 @@ footer strong{font-size:22px}
  </p>
 
  <div class="receipt" id="receipt">
-  <h3>RE/MAX ELITE</h3>
-  <h3>COMPROBANTE DIGITAL DE SOLICITUD</h3>
-  <hr>
 
-  <p id="receiptDetails"></p>
+  <div class="receipt-header">
+   <strong>RE/MAX <span>ELITE</span></strong>
+   <small>REAL ESTATE SERVICES</small>
+   <h3>COMPROBANTE DIGITAL DE SOLICITUD</h3>
+  </div>
 
-  <hr>
+  <div id="receiptDetails"></div>
 
-  <p style="text-align:center;color:#167443;font-weight:bold">
-   SOLICITUD PENDIENTE DE CONFIRMACIÓN
-  </p>
+  <div class="receipt-status">
+   SOLICITUD RECIBIDA - EN PROCESO
+  </div>
 
   <p style="font-size:12px;color:#66758a">
    Este documento acredita el envío de una solicitud.
    No constituye comprobante de pago ni reserva confirmada.
+   La visita queda sujeta a confirmación de disponibilidad.
   </p>
+
  </div>
 
  <button class="btn" id="downloadBtn" type="button">
-  DESCARGAR COMPROBANTE
+  GUARDAR COMPROBANTE EN PDF
  </button>
 
 </section>
@@ -410,7 +462,6 @@ footer strong{font-size:22px}
  <p>Utiliza la marca y los logotipos únicamente con autorización.</p>
 </footer>
 
-
 <script>
 const clientForm = document.getElementById("clientForm");
 const paymentForm = document.getElementById("paymentForm");
@@ -422,7 +473,6 @@ const successPage = document.getElementById("successPage");
 const sendBtn = document.getElementById("sendBtn");
 
 let clientData = null;
-let receiptText = "";
 
 const dateInput = document.getElementById("date");
 
@@ -431,7 +481,46 @@ dateInput.min = new Date(
  now.getTime() - now.getTimezoneOffset() * 60000
 ).toISOString().split("T")[0];
 
-clientForm.addEventListener("submit", function(e){
+function escapeHTML(value){
+ return String(value).replace(/[&<>"']/g,function(c){
+  return {
+   "&":"&amp;",
+   "<":"&lt;",
+   ">":"&gt;",
+   '"':"&quot;",
+   "'":"&#39;"
+  }[c];
+ });
+}
+
+function generateReference(){
+ const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+ let random = "";
+
+ if(window.crypto && window.crypto.getRandomValues){
+  const values = new Uint8Array(6);
+  window.crypto.getRandomValues(values);
+
+  for(let i=0;i<6;i++){
+   random += chars[values[i] % chars.length];
+  }
+ }else{
+  for(let i=0;i<6;i++){
+   random += chars[Math.floor(Math.random()*chars.length)];
+  }
+ }
+
+ const date = new Date();
+
+ const datePart =
+  String(date.getFullYear()).slice(-2) +
+  String(date.getMonth()+1).padStart(2,"0") +
+  String(date.getDate()).padStart(2,"0");
+
+ return "RME-" + datePart + "-" + random;
+}
+
+clientForm.addEventListener("submit",function(e){
  e.preventDefault();
 
  if(!clientForm.reportValidity()) return;
@@ -449,6 +538,7 @@ clientForm.addEventListener("submit", function(e){
 document.getElementById("backBtn").addEventListener("click",function(){
  page2.classList.add("hidden");
  page1.classList.remove("hidden");
+
  window.scrollTo({top:0,behavior:"smooth"});
 });
 
@@ -456,7 +546,7 @@ paymentForm.addEventListener("submit",async function(e){
  e.preventDefault();
 
  const selectedPayment =
- document.querySelector('input[name="payment"]:checked');
+  document.querySelector('input[name="payment"]:checked');
 
  if(!selectedPayment){
   alert("Selecciona un método de pago preferido.");
@@ -476,11 +566,18 @@ paymentForm.addEventListener("submit",async function(e){
  sendBtn.disabled = true;
  sendBtn.textContent = "ENVIANDO SOLICITUD...";
 
+ const referenceCode = generateReference();
+ const createdAt = new Date().toLocaleString("es-US");
+
  const data = {
   ...clientData,
-  payment_method: selectedPayment.value,
-  _subject: "Nueva solicitud de visita - RE/MAX ELITE",
-  _template: "table"
+  payment_method:selectedPayment.value,
+  reference_code:referenceCode,
+  request_status:"Solicitud recibida - en proceso",
+  reference_amount:"$150.00 USD (monto de referencia; no cobrado)",
+  request_created_at:createdAt,
+  _subject:"Nueva solicitud RE/MAX ELITE - " + referenceCode,
+  _template:"table"
  };
 
  try{
@@ -498,38 +595,53 @@ paymentForm.addEventListener("submit",async function(e){
 
   const result = await response.json();
 
-  if(!response.ok || result.success !== "true"){
+  if(!response.ok ||
+     !(result.success === "true" || result.success === true)){
    throw new Error("No se pudo confirmar el envío.");
   }
 
-  receiptText =
-  "RE/MAX ELITE\n"+
-  "COMPROBANTE DIGITAL DE SOLICITUD\n"+
-  "--------------------------------\n"+
-  "Nombre: "+clientData.name+"\n"+
-  "Teléfono: "+clientData.phone+"\n"+
-  "Correo: "+clientData.email+"\n"+
-  "Estado: "+clientData.state+"\n"+
-  "Vivienda: "+clientData.property+"\n"+
-  "Dirección: "+(clientData.address || "No indicada")+"\n"+
-  "Fecha solicitada: "+clientData.date+"\n"+
-  "Hora solicitada: "+clientData.time+"\n"+
-  "Método preferido: "+selectedPayment.value+"\n"+
-  "Mensaje: "+(clientData.message || "Ninguno")+"\n"+
-  "--------------------------------\n"+
-  "Estado: PENDIENTE DE CONFIRMACIÓN\n"+
-  "No es un comprobante de pago ni una reserva confirmada.";
-
   document.getElementById("receiptDetails").innerHTML =
-   "<b>Nombre:</b> "+escapeHTML(clientData.name)+"<br>"+
-   "<b>Teléfono:</b> "+escapeHTML(clientData.phone)+"<br>"+
-   "<b>Correo:</b> "+escapeHTML(clientData.email)+"<br>"+
-   "<b>Estado:</b> "+escapeHTML(clientData.state)+"<br>"+
-   "<b>Vivienda:</b> "+escapeHTML(clientData.property)+"<br>"+
-   "<b>Propiedad:</b> "+escapeHTML(clientData.address || "No indicada")+"<br>"+
-   "<b>Fecha:</b> "+escapeHTML(clientData.date)+"<br>"+
-   "<b>Hora:</b> "+escapeHTML(clientData.time)+"<br>"+
-   "<b>Método preferido:</b> "+escapeHTML(selectedPayment.value);
+   '<div class="ref-code">CÓDIGO DE REFERENCIA<br>' +
+   escapeHTML(referenceCode) + '</div>' +
+
+   '<p><b>Fecha de solicitud:</b> ' +
+   escapeHTML(createdAt) + '</p>' +
+
+   '<hr>' +
+
+   '<p><b>Nombre:</b> ' +
+   escapeHTML(clientData.name) + '</p>' +
+
+   '<p><b>Teléfono:</b> ' +
+   escapeHTML(clientData.phone) + '</p>' +
+
+   '<p><b>Correo:</b> ' +
+   escapeHTML(clientData.email) + '</p>' +
+
+   '<p><b>Estado:</b> ' +
+   escapeHTML(clientData.state) + '</p>' +
+
+   '<p><b>Tipo de vivienda:</b> ' +
+   escapeHTML(clientData.property) + '</p>' +
+
+   '<p><b>Propiedad:</b> ' +
+   escapeHTML(clientData.address || "No indicada") + '</p>' +
+
+   '<p><b>Fecha solicitada:</b> ' +
+   escapeHTML(clientData.date) + '</p>' +
+
+   '<p><b>Hora solicitada:</b> ' +
+   escapeHTML(clientData.time) + '</p>' +
+
+   '<p><b>Método preferido:</b> ' +
+   escapeHTML(selectedPayment.value) + '</p>' +
+
+   '<p><b>Información adicional:</b> ' +
+   escapeHTML(clientData.message || "Ninguna") + '</p>' +
+
+   '<hr>' +
+
+   '<p><b>Monto de referencia:</b> $150.00 USD. No se ha realizado ningún cobro.</p>';
 
   page2.classList.add("hidden");
   successPage.classList.remove("hidden");
@@ -552,35 +664,11 @@ paymentForm.addEventListener("submit",async function(e){
  }
 });
 
-function escapeHTML(value){
- return String(value).replace(/[&<>"']/g,function(c){
-  return {
-   "&":"&amp;",
-   "<":"&lt;",
-   ">":"&gt;",
-   '"':"&quot;",
-   "'":"&#39;"
-  }[c];
- });
-}
-
 document.getElementById("downloadBtn").addEventListener("click",function(){
-
- const blob = new Blob(
-  [receiptText],
-  {type:"text/plain;charset=utf-8"}
- );
-
- const url = URL.createObjectURL(blob);
- const a = document.createElement("a");
-
- a.href = url;
- a.download = "comprobante-remax-elite.txt";
- a.click();
-
- URL.revokeObjectURL(url);
+ window.print();
 });
 </script>
 
 </body>
 </html>
+
