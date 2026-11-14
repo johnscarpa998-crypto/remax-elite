@@ -89,6 +89,14 @@ input:focus,select:focus,textarea:focus{
 .method:has(input:checked){
  border:2px solid #0754a7;background:#edf5ff;
 }
+.method .method-description{
+ display:block;
+ margin-top:7px;
+ font-size:13px;
+ line-height:1.7;
+ font-weight:normal;
+ color:#68778a;
+}
 .summary{
  background:#f5f8fc;border-radius:10px;
  padding:16px;line-height:1.8;font-size:14px;
@@ -382,11 +390,16 @@ footer strong{font-size:22px}
    Venmo
   </label>
 
-  <label class="method">
+  <label class="method" style="align-items:flex-start">
    <input type="radio" name="payment"
    value="Efectivo en establecimiento autorizado"
    form="paymentForm">
-   Efectivo en establecimiento autorizado
+   <span>
+    Efectivo en establecimiento autorizado
+    <small class="method-description">
+     Pharmacy Dollar · Walmart · 7-Eleven · Walgreens · Dollar General
+    </small>
+   </span>
   </label>
 
  </div>
@@ -671,4 +684,3 @@ document.getElementById("downloadBtn").addEventListener("click",function(){
 
 </body>
 </html>
-
